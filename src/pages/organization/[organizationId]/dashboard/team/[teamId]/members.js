@@ -11,6 +11,7 @@ export default function TeamMembersPage() {
   const router = useRouter();
   const { organizationId, teamId } = router.query;
 
+  // Effect to load the team data when the component mounts or organizationId/teamId changes
   useEffect(() => {
     const teamid = localStorage.getItem("teamId") || null;
     if (!teamid) localStorage.setItem("teamId", teamId);
@@ -31,6 +32,7 @@ export default function TeamMembersPage() {
     }
   }, [organizationId, teamId]);
 
+  // Function to handle adding a new member to the team
   const handleAddMember = async (e) => {
     e.preventDefault();
     try {
@@ -54,6 +56,7 @@ export default function TeamMembersPage() {
     }
   };
 
+  // Function to handle removing a member from the team
   const handleRemoveMember = async (memberId) => {
     try {
       await teamApi.removeMember(memberId);

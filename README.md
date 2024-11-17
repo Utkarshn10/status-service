@@ -1,40 +1,25 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Project Overview
 
-## Getting Started
+This project is a Next.js web application integrated with Supabase, designed to facilitate the management of teams, services, and incidents within organizations.
 
-First, run the development server:
+## Key Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Organization Dashboard
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The Organization Dashboard serves as the central hub for an organization, providing a comprehensive view of all teams within the organization. It also enables the creation of new teams.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Team Dashboard
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+The Team Dashboard is a dedicated space for a specific team, showcasing all services associated with the team. Additionally, it allows for the creation of new services.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### Service Dashboard
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The Service Dashboard is a detailed view of a specific service, listing all incidents related to the service. It also provides the functionality to create new incidents.
 
-## Learn More
+### Team Members Management
 
-To learn more about Next.js, take a look at the following resources:
+The Team Members page is designed for managing team membership. It displays a list of all team members and allows for the addition or removal of members.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### Real-Time Notifications
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+The application includes a real-time notification system, ensuring that all team members are informed of any changes to services or updates to incident statuses.

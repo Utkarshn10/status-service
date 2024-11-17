@@ -26,6 +26,7 @@ import { organizationApi } from "@/lib/supabase/organisations";
 import { teamApi } from "@/lib/supabase/teams";
 import useAuthStore from "@/lib/auth/auth-context";
 
+// Main component for managing services
 export default function ServicesPage() {
   const router = useRouter();
   const { organizationId, teamId } = router.query;
@@ -37,12 +38,14 @@ export default function ServicesPage() {
   const [isMemberOfTeam, setIsMemberOfTeam] = useState(false);
   const fetchUser = useAuthStore((state) => state.fetchUser);
 
+  // Form data for creating and updating services
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     currentStatus: "operational",
   });
 
+  // Form data for creating incidents
   const [incidentFormData, setIncidentFormData] = useState({
     title: "",
     description: "",
@@ -50,6 +53,7 @@ export default function ServicesPage() {
     affectedServices: [],
   });
 
+  // Effect to load services and check team membership
   useEffect(() => {
     const teamid = localStorage.getItem("teamId") || null;
     if (!teamid) localStorage.setItem("teamId", teamId);
@@ -106,7 +110,7 @@ export default function ServicesPage() {
     loadServices();
   }, [organizationId, teamId, fetchUser]);
 
-
+  // Status icons for services
   const statusIcons = {
     operational: <CheckCircle className="h-5 w-5 text-green-500" />,
     degraded: <AlertTriangle className="h-5 w-5 text-yellow-500" />,
@@ -114,6 +118,7 @@ export default function ServicesPage() {
     major_outage: <XCircle className="h-5 w-5 text-red-500" />,
   };
 
+  // Incident status options
   const incidentStatusOptions = [
     { value: "investigating", label: "Investigating" },
     { value: "identified", label: "Identified" },
@@ -121,6 +126,7 @@ export default function ServicesPage() {
     { value: "resolved", label: "Resolved" },
   ];
 
+  // Function to handle service status update
   const handleStatusUpdate = async (serviceId, newStatus) => {
     try {
       const updatedService = await serviceApi.updateStatus(
@@ -137,6 +143,7 @@ export default function ServicesPage() {
     }
   };
 
+  // Function to handle service creation
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
@@ -165,6 +172,7 @@ export default function ServicesPage() {
     }
   };
 
+  // Function to handle service edit
   const handleEdit = (service) => {
     setFormData({
       id: service.id,
@@ -175,6 +183,7 @@ export default function ServicesPage() {
     setShowEditForm(true);
   };
 
+  // Function to handle service update
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
@@ -199,6 +208,7 @@ export default function ServicesPage() {
     }
   };
 
+  // Function to handle incident creation
   const handleIncidentCreate = async (e) => {
     e.preventDefault();
     try {
@@ -235,6 +245,7 @@ export default function ServicesPage() {
     }
   };
 
+  // Function to handle incident status update
   const handleIncidentStatusUpdate = async (
     incidentId,
     title,
@@ -271,6 +282,7 @@ export default function ServicesPage() {
     }
   };
 
+  // Render the component
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">

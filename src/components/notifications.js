@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
+// Define the structure of a notification object
 const Notification = {
   id: "",
   message: "",
@@ -19,12 +20,14 @@ export default function Component() {
   const teamId =
     typeof window !== "undefined" ? localStorage.getItem("teamId") : null;
 
+  // Effect to handle Realtime updates from Supabase
   useEffect(() => {
     if (!teamId) {
       console.error("Team ID is missing.");
       return;
     }
 
+    // Subscribe to Supabase channel for Realtime updates
     const channel = supabase.channel(`org-${teamId}`);
 
     channel.on("status", (status) => {
@@ -34,6 +37,7 @@ export default function Component() {
       }
     });
 
+    // Listen for incident updates and new incidents
     channel.on(
       "postgres_changes",
       {
@@ -88,12 +92,14 @@ export default function Component() {
       }
     });
 
+    // Cleanup function to unsubscribe from Realtime updates
     return () => {
       supabase.removeChannel(channel);
       console.log("Unsubscribed from Realtime updates.");
     };
   }, [teamId]);
 
+  // Effect to handle click outside the notification area
   useEffect(() => {
     function handleClickOutside(event) {
       if (

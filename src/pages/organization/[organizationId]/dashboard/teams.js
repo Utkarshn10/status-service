@@ -14,6 +14,7 @@ export default function TeamPage() {
   const router = useRouter();
   const { organizationId } = router.query;
 
+  // Effect to load teams data when the component mounts or organizationId changes
   useEffect(() => {
     const loadTeams = async () => {
       try {
@@ -31,6 +32,7 @@ export default function TeamPage() {
     loadTeams();
   }, [organizationId]);
 
+  // Function to handle the creation of a new team
   const handleCreateTeam = async (e) => {
     e.preventDefault();
     try {
