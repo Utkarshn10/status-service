@@ -1,34 +1,12 @@
 import { supabase } from "./client";
 
 export const incidentApi = {
-  async list(organizationId, status = null) {
-    let query = supabase
-      .from("incidents")
-      .select(
-        `
-          *,
-          incident_services(service_id),
-          incident_updates(*)
-        `
-      )
-      .eq("organization_id", organizationId)
-      .order("created_at", { ascending: false });
-
-    if (status) {
-      query = query.eq("status", status);
-    }
-
-    const { data, error } = await query;
-    if (error) throw error;
-    return data;
-  },
-
   async create({
     organizationId,
+    teamId,
     title,
     description,
     status,
-    impact,
     affectedServices,
   }) {
     const { data: incident, error: incidentError } = await supabase
@@ -36,10 +14,10 @@ export const incidentApi = {
       .insert([
         {
           organization_id: organizationId,
+          team_id: teamId,
           title,
           description,
           status,
-          impact,
         },
       ])
       .select()
@@ -63,13 +41,14 @@ export const incidentApi = {
     return incident;
   },
 
-  async addUpdate({ incidentId, message, status }) {
+  async addUpdate({ incidentId, teamId, message, status }) {
     const { data: update, error: updateError } = await supabase
       .from("incident_updates")
       .insert([
         {
           incident_id: incidentId,
           message,
+          team_id: teamId,
           status,
         },
       ])

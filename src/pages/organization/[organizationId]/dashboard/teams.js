@@ -13,12 +13,13 @@ export default function TeamPage() {
   const [error, setError] = useState(null);
   const router = useRouter();
   const { organizationId } = router.query;
-  console.log("org = ", organizationId);
 
   useEffect(() => {
     const loadTeams = async () => {
       try {
         const data = await teamApi.list(organizationId);
+        const orgId = localStorage.getItem("organizationId") || null;
+        if (!orgId) localStorage.setItem("organizationId", organizationId);
         setTeams(data);
         setError(null);
       } catch (error) {
@@ -102,7 +103,7 @@ export default function TeamPage() {
       <div className="grid gap-4 md:gap-6">
         {teams?.map((team) => (
           <Link
-            href={`/organisation/${organizationId}/dashboard/team/${team?.id}/members`}
+            href={`/organization/${organizationId}/dashboard/team/${team?.id}/members`}
             key={team.id}
             className="block p-4 md:p-6 border rounded-lg hover:border-blue-500 hover:shadow-md transition-all duration-200"
           >

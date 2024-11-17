@@ -76,4 +76,24 @@ export const teamApi = {
     if (error) throw error;
     return data;
   },
+
+  async removeMember(memberId) {
+    const { error } = await supabase
+      .from("team_members")
+      .delete()
+      .eq("id", memberId);
+
+    if (error) throw error;
+    return { message: "Member removed successfully" };
+  },
+
+  async isMemberOfTeam(teamId, email) {
+    const { data, error } = await supabase
+      .from("team_members")
+      .select("user_email")
+      .eq("team_id", teamId)
+      .eq("user_email", email);
+    if (error) throw error;
+    return data?.length > 0 ? true : false;
+  },
 };

@@ -12,6 +12,8 @@ export default function TeamMembersPage() {
   const { organizationId, teamId } = router.query;
 
   useEffect(() => {
+    const teamid = localStorage.getItem("teamId") || null;
+    if (!teamid) localStorage.setItem("teamId", teamId);
     const loadTeam = async () => {
       try {
         const teams = await teamApi.list(organizationId);

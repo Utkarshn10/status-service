@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import useAuthStore from "@/lib/auth/auth-context";
 import { useRouter } from "next/router";
+import { organizationApi } from "@/lib/supabase/organisations";
 
 const SignUp = () => {
   const form = useForm({
@@ -22,12 +23,24 @@ const SignUp = () => {
   });
   const router = useRouter();
   const signUp = useAuthStore((state) => state.signUp);
+  const fetchUser = useAuthStore((state) => state.fetchUser);
+  const setOrganizationId = useAuthStore((state) => state.setOrganizationId);
+  const setTeamId = useAuthStore((state) => state.setTeamId);
 
   const onSubmit = async (data) => {
     try {
       await signUp(data.email, data.password);
+      const user = await fetchUser();
+      const { organizationId, teamId } =
+        await organizationApi.getUserOrganizationAndTeamId(user?.email);
+      setOrganizationId(organizationId);
+      setTeamId(teamId);
       alert("Signed up successfully!");
-      router.push("dashboard/services");
+      if (organizationId && teamId)
+        router.push(
+          `/organization/${organizationId}/dashboard/team/${teamId}/services`
+        );
+      else router.push("/organizations");
     } catch (error) {
       alert(error.message);
     }

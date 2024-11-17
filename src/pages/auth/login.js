@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import useAuthStore from "@/lib/auth/auth-context";
 import { useRouter } from "next/router";
+import useAuthStore from "@/lib/auth/auth-context";
+import { organizationApi } from "@/lib/supabase/organisations";
 
 const Login = () => {
   const form = useForm({
@@ -22,13 +23,28 @@ const Login = () => {
   });
 
   const signIn = useAuthStore((state) => state.signIn);
+  const fetchUser = useAuthStore((state) => state.fetchUser);
   const router = useRouter();
+  const setOrganizationId = useAuthStore((state) => state.setOrganizationId);
+  const setTeamId = useAuthStore((state) => state.setTeamId);
 
   const onSubmit = async (data) => {
     try {
       await signIn(data.email, data.password);
+      const user = await fetchUser();
+      console.log("user 1= ", user);
+      const { organizationId, teamId } =
+        await organizationApi.getUserOrganizationAndTeamId(user?.email);
+      setOrganizationId(organizationId);
+      setTeamId(teamId);
+      localStorage.setItem("teamId", teamId);
+      console.log("ids = ", organizationId);
       alert("Logged in successfully!");
-      router.push("/dashboard/services");
+      if (organizationId && teamId)
+        router.push(
+          `/organization/${organizationId}/dashboard/team/${teamId}/services`
+        );
+      else router.push("/organizations");
     } catch (error) {
       alert(error.message);
     }
