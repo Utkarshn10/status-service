@@ -2,6 +2,14 @@
 
 A modern status page application built with Next.js and Supabase, allowing organizations to manage their services, track incidents, and communicate status updates to their users.
 
+**Important Note About Admin Roles:**
+Administrators (IT admins) are not included as team members in this system. This architectural decision was made because:
+
+Admin roles are specifically designed for IT administrators who manage organizational setup and member access
+Team member management is typically a low-frequency activity
+Admins don't need real-time notifications about service incidents as they're not part of the operational teams
+This separation maintains a clear distinction between system administration and operational responsibilities
+
 ## Features
 
 - 🏢 **Organization Management**: Create and manage multiple organizations
