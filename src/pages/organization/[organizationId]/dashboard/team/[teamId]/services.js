@@ -147,18 +147,10 @@ export default function ServicesPage() {
   const handleCreate = async (e) => {
     e.preventDefault();
     try {
-      let initialStatus = "identified";
-      if (
-        formData.currentStatus === "partial_outage" ||
-        formData.currentStatus === "major_outage"
-      ) {
-        initialStatus = "investigating";
-      }
       const newService = await serviceApi.create({
         organizationId,
         teamId,
         ...formData,
-        currentStatus: initialStatus,
       });
       setServices([...services, newService]);
       setShowCreateForm(false);
